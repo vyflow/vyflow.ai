@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vyflow · Marketing systems that run themselves</title>
+<meta name="description" content="vyflow builds and operates the full growth stack for healthcare practices: lead tracking, paid search, local presence, and AI automation, wired into one accountable system.">
+<style>
+  :root {
+    --ink: #0b0d12;
+    --body: #3c4250;
+    --muted: #737a89;
+    --line: #e7e8ec;
+    --bg: #ffffff;
+    --surface: #f6f7f9;
+    --accent: #2451ff;
+    --accent-ink: #ffffff;
+    --nav-bg: rgba(255, 255, 255, 0.68);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f2f4f8;
+      --body: #b8bdc9;
+      --muted: #7e8492;
+      --line: #23262e;
+      --bg: #0b0d12;
+      --surface: #14161c;
+      --accent: #5b7bff;
+      --accent-ink: #0b0d12;
+      --nav-bg: rgba(11, 13, 18, 0.68);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    :root { --nav-bg: var(--bg); }
+    .nav { backdrop-filter: none !important; }
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    font: 100%/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-optical-sizing: auto;
+    background: var(--bg);
+    color: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---------- translucent chrome, scroll-edge effect instead of a hard border ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+  .nav::after {
+    content: ""; position: absolute; inset: auto 0 -1px 0; height: 1px;
+    background: var(--line); opacity: 0; transition: opacity 240ms ease;
+  }
+  .nav.is-scrolled::after { opacity: 1; }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.5rem; max-width: 68rem; margin: 0 auto; }
+  .logo { font-weight: 650; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+  .logo span { color: var(--accent); }
+  .nav a.cta { font-size: 0.9rem; }
+
+  /* ---------- type scale: size-specific tracking and leading ---------- */
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    font-weight: 680;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 650;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h3 { font-size: 1.05rem; line-height: 1.3; letter-spacing: -0.005em; font-weight: 620; color: var(--ink); }
+  .lead { font-size: clamp(1.05rem, 1.8vw, 1.25rem); line-height: 1.55; max-width: 38rem; }
+  .eyebrow {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.9rem;
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: clamp(4rem, 9vw, 7.5rem) 0; }
+  .hero { padding-top: clamp(4.5rem, 11vw, 8.5rem); }
+  .hero p.lead { margin: 1.4rem 0 2.2rem; }
+
+  /* buttons: feedback on press, instant */
+  .btn {
+    display: inline-block;
+    background: var(--accent); color: var(--accent-ink);
+    font-weight: 600; font-size: 0.98rem;
+    padding: 0.78rem 1.35rem; border-radius: 999px;
+    text-decoration: none;
+    transition: transform 320ms cubic-bezier(0.25, 1, 0.35, 1), box-shadow 320ms ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .btn:active { transform: scale(0.97); transition-duration: 90ms; }
+  a.quiet { color: var(--accent); text-decoration: none; font-weight: 550; }
+  a.quiet:hover { text-decoration: underline; }
+  .btn-row { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+
+  /* cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: 2.4rem; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    transition: transform 420ms cubic-bezier(0.25, 1, 0.35, 1);
+  }
+  .card:hover { transform: translateY(-3px); }
+  .card h3 { margin-bottom: 0.55rem; }
+  .card p { font-size: 0.94rem; line-height: 1.55; }
+  .card .num {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem; font-weight: 600; color: var(--muted);
+    display: block; margin-bottom: 1.1rem; letter-spacing: 0.06em;
+  }
+
+  /* principles list */
+  .principles { display: grid; gap: 0; margin-top: 2rem; border-top: 1px solid var(--line); }
+  .principle {
+    display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr; gap: 1.5rem;
+    padding: 1.6rem 0; border-bottom: 1px solid var(--line);
+  }
+  .principle h3 { padding-top: 0.1rem; }
+  .principle p { font-size: 0.97rem; max-width: 34rem; }
+  @media (max-width: 40rem) { .principle { grid-template-columns: 1fr; gap: 0.4rem; } }
+
+  .about { background: var(--surface); }
+  .about .wrap { max-width: 44rem; }
+  .about p { margin-top: 1.2rem; }
+
+  footer { padding: 3rem 0 3.5rem; border-top: 1px solid var(--line); }
+  .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: 0.88rem; color: var(--muted); }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .foot a:hover { color: var(--ink); }
+
+  /* entrance: one orchestrated hero reveal, nothing scroll-triggered */
+  .reveal { opacity: 0; transform: translateY(14px); animation: rise 700ms cubic-bezier(0.25, 1, 0.35, 1) forwards; }
+  .reveal.d1 { animation-delay: 90ms; }
+  .reveal.d2 { animation-delay: 180ms; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: fadein 240ms ease forwards; transform: none; }
+    @keyframes fadein { to { opacity: 1; } }
+    .btn, .card { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">vy<span>flow</span></a>
+    <a class="quiet cta" href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="reveal">Marketing systems that run themselves.</h1>
+    <p class="lead reveal d1">vyflow builds and operates the full growth stack for healthcare practices: lead tracking that cannot be blocked, paid search that learns from booked patients, and AI agents that do the daily upkeep. One system, one place to see it all.</p>
+    <div class="btn-row reveal d2">
+      <a class="btn" href="mailto:tarek@vyflow.ai">Start a conversation</a>
+      <a class="quiet" href="#how">How it works</a>
+    </div>
+  </div>
+</header>
+
+<section id="what">
+  <div class="wrap">
+    <div class="eyebrow">What we build</div>
+    <h2>Every client runs the same proven stack.</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Lead engine</h3>
+        <p>Every inquiry is captured server-side with its ad click attached, so ad platforms learn from real patients, not from whatever a browser lets through.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>Paid search</h3>
+        <p>Google Ads structured per location, launched deliberately, and fed conversions that reflect booked appointments rather than form fills.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>Local presence</h3>
+        <p>Business Profiles audited, maintained, and measured for every location, with reviews answered and listings defended against silent changes.</p>
+      </div>
+      <div class="card">
+        <span class="num">04</span>
+        <h3>AI operations</h3>
+        <p>Agents keep the books: lead statuses update from front-desk activity, weekly reports write themselves, and nothing depends on someone remembering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Three rules make it trustworthy.</h2>
+    <div class="principles">
+      <div class="principle">
+        <h3>The ledger is truth</h3>
+        <p>Lead counts come from a server-side record that ad blockers cannot touch. Analytics is the map, never the scoreboard, so decisions rest on numbers that are actually complete.</p>
+      </div>
+      <div class="principle">
+        <h3>Compliance is structural</h3>
+        <p>For healthcare clients, patient information stays inside BAA-covered systems. Ad platforms receive click IDs and timestamps, nothing that identifies a person. Built in from day one, not patched in later.</p>
+      </div>
+      <div class="principle">
+        <h3>Owned, not rented</h3>
+        <p>Clients own their accounts, their data, and their history. vyflow operates the system and hands over clean keys if we ever part ways. No hostage infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="eyebrow">About</div>
+    <h2>Built inside a real practice.</h2>
+    <p>vyflow was built by Tarek Taha while running marketing and automation for a ten-clinic physical therapy group in Chicagoland. The stack described here is not a proposal. It is the system that captures, tracks, and reports that group's patient growth every day.</p>
+    <p>Now it is offered as a service: the same architecture, set up and operated for your practice.</p>
+    <p style="margin-top:2rem"><a class="btn" href="mailto:tarek@vyflow.ai">Talk to Tarek</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 vyflow · Chicago, IL</div>
+    <div><a href="/privacy.html">Privacy</a> · <a href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a></div>
+  </div>
+</footer>
+
+<script>
+  // Scroll-edge effect on the translucent nav: divider appears only when content passes under it.
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+</script>
+</body>
+</html>
