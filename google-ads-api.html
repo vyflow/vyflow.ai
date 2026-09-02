@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Ads API Tool · vyflow</title>
+<meta name="description" content="How vyflow uses the Google Ads API: an internal tool that uploads offline conversions and pulls performance reports for the client accounts vyflow manages under its manager account.">
+<style>
+  :root { --ink:#0b0d12; --body:#3c4250; --muted:#737a89; --line:#e7e8ec; --bg:#fff; --surface:#f6f7f9; --accent:#2451ff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#f2f4f8; --body:#b8bdc9; --muted:#7e8492; --line:#23262e; --bg:#0b0d12; --surface:#14161c; --accent:#5b7bff; }
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { font:100%/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--body); -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:46rem; margin:0 auto; padding:4rem 1.5rem 5rem; }
+  h1 { color:var(--ink); font-size:clamp(1.9rem,4vw,2.5rem); letter-spacing:-0.02em; line-height:1.1; margin-bottom:0.5rem; text-wrap:balance; }
+  h2 { color:var(--ink); font-size:1.2rem; letter-spacing:-0.005em; margin:2.4rem 0 0.7rem; }
+  h3 { color:var(--ink); font-size:1rem; margin:1.4rem 0 0.4rem; }
+  .meta { color:var(--muted); font-size:0.88rem; margin-bottom:2.2rem; }
+  p, li { margin-bottom:0.9rem; }
+  ul, ol { padding-left:1.3rem; }
+  li { margin-bottom:0.5rem; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .back { display:inline-block; margin-bottom:2.5rem; font-size:0.9rem; }
+  .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); gap:0.8rem; margin:1.6rem 0 0.4rem; }
+  .fact { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:0.9rem 1rem; }
+  .fact .k { display:block; font-size:0.74rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); margin-bottom:0.3rem; }
+  .fact .v { color:var(--ink); font-weight:550; font-variant-numeric:tabular-nums; }
+  .flow { counter-reset:step; list-style:none; padding:0; margin-top:1rem; border-top:1px solid var(--line); }
+  .flow li { counter-increment:step; display:grid; grid-template-columns:2.2rem 1fr; gap:0.8rem; padding:0.9rem 0; border-bottom:1px solid var(--line); margin:0; }
+  .flow li::before { content:counter(step,decimal-leading-zero); font-size:0.78rem; font-weight:600; color:var(--muted); padding-top:0.2rem; font-variant-numeric:tabular-nums; }
+  pre { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; overflow-x:auto; font-size:0.84rem; line-height:1.5; margin:0.8rem 0 1.2rem; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .note { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; margin:1.4rem 0; font-size:0.95rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; vyflow</a>
+  <h1>How vyflow uses the Google Ads API</h1>
+  <p class="meta">Internal tool description · Updated September 2, 2026</p>
+
+  <p>vyflow is a marketing agency in Chicago, Illinois that plans, builds, and operates Google Ads campaigns for healthcare practices. Client accounts are linked under the vyflow Google Ads manager account, and vyflow staff manage them directly. This page describes the small internal tool we run against the Google Ads API to support that work.</p>
+
+  <div class="facts">
+    <div class="fact"><span class="k">Company</span><span class="v">vyflow · Chicago, IL</span></div>
+    <div class="fact"><span class="k">Manager account (MCC)</span><span class="v">219-868-9791</span></div>
+    <div class="fact"><span class="k">Contact</span><span class="v"><a href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a></span></div>
+    <div class="fact"><span class="k">Users of the tool</span><span class="v">vyflow staff only</span></div>
+  </div>
+
+  <h2>Business model</h2>
+  <p>vyflow earns a monthly service fee from each client for managing their growth stack: paid search on Google Ads, lead tracking, local listings, and reporting. Our first client is a ten-clinic physical therapy group in the Chicago area whose Google Ads account is linked under our manager account. Additional clients will be onboarded the same way.</p>
+  <p>The API tool is used only by vyflow staff, only on accounts we directly manage. We do not resell or sublicense API access, we do not offer software to third parties, and there are no external users, logins, or self-serve features.</p>
+
+  <h2>What the tool does</h2>
+
+  <h3>1. Offline click conversion uploads (primary use)</h3>
+  <p>Each client's website captures the Google click identifier (GCLID) with every inquiry using first-party code, and stores it in the client's own lead record. When a lead is received, and again later when that lead becomes a booked appointment, the tool calls <code>ConversionUploadService.UploadClickConversions</code> to report the conversion: click identifier, conversion action, conversion time, and currency and value where applicable.</p>
+  <p>No personally identifiable or health-related information is sent to Google Ads. Enhanced conversions for leads are deliberately not used.</p>
+
+  <h3>2. Performance reporting (secondary use)</h3>
+  <p>Scheduled jobs call <code>GoogleAdsService.SearchStream</code> to retrieve campaign, ad group, and search-term performance for the accounts under our manager account. We compile this into a weekly report for each client.</p>
+
+  <h3>3. Campaign monitoring (secondary use)</h3>
+  <p>Read-only checks of campaign status and budget pacing, so a paused campaign or an exhausted budget is noticed the same day rather than at the end of the month.</p>
+
+  <h2>Architecture and data flow</h2>
+  <ol class="flow">
+    <li>The client's website captures the GCLID with each form submission using a first-party script.</li>
+    <li>Our workflow platform, a self-managed n8n instance with workflows authored by vyflow, writes the submission to the client's lead ledger.</li>
+    <li>A scheduled vyflow workflow reads new ledger rows that contain a click identifier and calls the Google Ads API, authenticating with OAuth 2.0 using vyflow's own credentials and the developer token issued to our manager account, to upload offline click conversions into the managed client account.</li>
+    <li>A weekly reporting workflow retrieves performance data with SearchStream and writes an aggregate report to our internal operations workspace.</li>
+  </ol>
+
+  <h3>Illustrative request</h3>
+  <pre><code>UploadClickConversions
+  customer_id: &lt;managed client account&gt;
+  partial_failure: true
+  conversions: [{
+    gclid: "Cj0K...",
+    conversion_action: "customers/.../conversionActions/...",
+    conversion_date_time: "2026-09-01 10:15:00-05:00"
+  }]</code></pre>
+
+  <h2>Access, security, and volume</h2>
+  <ul>
+    <li><strong>Users:</strong> vyflow staff only. Currently one operator, tarek@vyflow.ai.</li>
+    <li><strong>Credentials:</strong> stored server-side on infrastructure vyflow controls. The developer token is never embedded in any client-facing software or website.</li>
+    <li><strong>Data sent to Google:</strong> click identifiers, conversion action names, timestamps, and optional values. Never names, contact details, or health information.</li>
+    <li><strong>Volume:</strong> tens of conversion uploads per week per client and a handful of reporting queries per week, well within Basic Access limits.</li>
+  </ul>
+
+  <div class="note">
+    <strong>Compliance note.</strong> vyflow's clients are healthcare practices. Patient information stays inside systems covered by the appropriate agreements with each client. The Google Ads API integration is designed so that no protected health information can reach Google Ads: the only identifier that crosses the boundary is the click ID that Google itself generated. See our <a href="/privacy.html">privacy policy</a> for how we handle Google Ads data.
+  </div>
+
+  <h2>Contact</h2>
+  <p>Questions about this tool or our use of the Google Ads API: <a href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a>.</p>
+</div>
+</body>
+</html>
