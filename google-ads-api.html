@@ -68,7 +68,7 @@
   <h2>Architecture and data flow</h2>
   <ol class="flow">
     <li>The client's website captures the GCLID with each form submission using a first-party script.</li>
-    <li>Our workflow platform, a self-managed n8n instance with workflows authored by vyflow, writes the submission to the client's lead ledger.</li>
+    <li>Our workflow platform, with workflows authored and operated by vyflow, writes the submission to the client's lead ledger.</li>
     <li>A scheduled vyflow workflow reads new ledger rows that contain a click identifier and calls the Google Ads API, authenticating with OAuth 2.0 using vyflow's own credentials and the developer token issued to our manager account, to upload offline click conversions into the managed client account.</li>
     <li>A weekly reporting workflow retrieves performance data with SearchStream and writes an aggregate report to our internal operations workspace.</li>
   </ol>
@@ -85,7 +85,7 @@
 
   <h2>Access, security, and volume</h2>
   <ul>
-    <li><strong>Users:</strong> vyflow staff only. Currently one operator, tarek@vyflow.ai.</li>
+    <li><strong>Users:</strong> vyflow staff only. No client or third-party access.</li>
     <li><strong>Credentials:</strong> stored server-side on infrastructure vyflow controls. The developer token is never embedded in any client-facing software or website.</li>
     <li><strong>Data sent to Google:</strong> click identifiers, conversion action names, timestamps, and optional values. Never names, contact details, or health information.</li>
     <li><strong>Volume:</strong> tens of conversion uploads per week per client and a handful of reporting queries per week, well within Basic Access limits.</li>
