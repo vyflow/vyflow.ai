@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>vyflow · Marketing systems that run themselves</title>
-<meta name="description" content="vyflow builds and operates the full growth stack for healthcare practices: Google Ads management, lead tracking, local presence, and AI automation, wired into one accountable system.">
+<title>vyflow · Patient growth that runs itself</title>
+<meta name="description" content="vyflow builds and runs the website, the Google Ads funnels, and the AI operations for healthcare practices with more than one location, as one system that reports in booked patients.">
 <style>
   :root {
     --ink: #0b0d12;
@@ -48,7 +48,6 @@
   }
   .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
 
-  /* ---------- translucent chrome, scroll-edge effect instead of a hard border ---------- */
   .nav {
     position: sticky; top: 0; z-index: 10;
     background: var(--nav-bg);
@@ -60,12 +59,15 @@
     background: var(--line); opacity: 0; transition: opacity 240ms ease;
   }
   .nav.is-scrolled::after { opacity: 1; }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.5rem; max-width: 68rem; margin: 0 auto; }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 1.5rem; max-width: 68rem; margin: 0 auto; }
   .logo { font-weight: 650; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
   .logo span { color: var(--accent); }
-  .nav a.cta { font-size: 0.9rem; }
+  .nav-links { display: flex; gap: 1.4rem; align-items: center; font-size: 0.9rem; }
+  .nav-links a { color: var(--body); text-decoration: none; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.cta { color: var(--accent); font-weight: 550; }
+  @media (max-width: 40rem) { .nav-links a:not(.cta) { display: none; } }
 
-  /* ---------- type scale: size-specific tracking and leading ---------- */
   h1 {
     font-size: clamp(2.4rem, 6vw, 4.2rem);
     line-height: 1.04;
@@ -88,13 +90,13 @@
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 0.9rem;
   }
+  .sub { max-width: 40rem; margin-top: 1rem; }
 
-  /* ---------- sections ---------- */
   section { padding: clamp(4rem, 9vw, 7.5rem) 0; }
   .hero { padding-top: clamp(4.5rem, 11vw, 8.5rem); }
   .hero p.lead { margin: 1.4rem 0 2.2rem; }
+  .hero .for { font-size: 0.92rem; color: var(--muted); margin-top: 1.6rem; max-width: 38rem; }
 
-  /* buttons: feedback on press, instant */
   .btn {
     display: inline-block;
     background: var(--accent); color: var(--accent-ink);
@@ -109,7 +111,6 @@
   a.quiet:hover { text-decoration: underline; }
   .btn-row { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
 
-  /* cards */
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: 2.4rem; }
   .card {
     background: var(--surface);
@@ -127,7 +128,33 @@
     display: block; margin-bottom: 1.1rem; letter-spacing: 0.06em;
   }
 
-  /* principles list */
+  /* tiers */
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 2.4rem; align-items: stretch; }
+  .tier {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 1.7rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;
+  }
+  .tier.featured { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); box-shadow: 0 10px 40px color-mix(in srgb, var(--accent) 10%, transparent); }
+  .tier .stage { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .tier h3 { font-size: 1.5rem; letter-spacing: -0.02em; }
+  .tier .job { font-size: 0.98rem; color: var(--ink); }
+  .tier .price { font-size: 1.35rem; font-weight: 650; color: var(--ink); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .tier .price small { display: block; font-size: 0.82rem; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 0.2rem; }
+  .tier ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; font-size: 0.93rem; line-height: 1.45; }
+  .tier li { padding-left: 1.2rem; position: relative; }
+  .tier li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); }
+  .tier li.inherit { color: var(--muted); }
+  .tier li.inherit::before { background: var(--line); }
+  .tier .foot { margin-top: auto; font-size: 0.86rem; color: var(--muted); }
+  .note { font-size: 0.9rem; color: var(--muted); margin-top: 1.6rem; max-width: 44rem; }
+
+  /* audit offer */
+  .offer { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 2rem 1.8rem; display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; margin-top: 2rem; }
+  .offer .price { font-size: 1.6rem; font-weight: 650; color: var(--ink); letter-spacing: -0.01em; }
+  .offer .price small { display: block; font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+  .offer ul { padding-left: 1.1rem; font-size: 0.94rem; display: grid; gap: 0.4rem; margin-top: 0.8rem; }
+  @media (max-width: 44rem) { .offer { grid-template-columns: 1fr; } }
+
   .principles { display: grid; gap: 0; margin-top: 2rem; border-top: 1px solid var(--line); }
   .principle {
     display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr; gap: 1.5rem;
@@ -146,7 +173,6 @@
   .foot a { color: var(--muted); text-decoration: none; }
   .foot a:hover { color: var(--ink); }
 
-  /* entrance: one orchestrated hero reveal, nothing scroll-triggered */
   .reveal { opacity: 0; transform: translateY(14px); animation: rise 700ms cubic-bezier(0.25, 1, 0.35, 1) forwards; }
   .reveal.d1 { animation-delay: 90ms; }
   .reveal.d2 { animation-delay: 180ms; }
@@ -163,68 +189,83 @@
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a class="logo" href="/">vy<span>flow</span></a>
-    <a class="quiet cta" href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#google-ads">Google Ads</a>
+      <a href="#audit">AI audit</a>
+      <a href="#how">How it works</a>
+      <a class="cta" href="mailto:tarek@vyflow.ai">tarek@vyflow.ai</a>
+    </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <h1 class="reveal">Marketing systems that run themselves.</h1>
-    <p class="lead reveal d1">vyflow builds and operates the full growth stack for healthcare practices: lead tracking that cannot be blocked, paid search that learns from booked patients, and AI agents that do the daily upkeep. One system, one place to see it all.</p>
+    <div class="eyebrow reveal">For healthcare practices with more than one location</div>
+    <h1 class="reveal">Patient growth that runs itself.</h1>
+    <p class="lead reveal d1">vyflow builds and runs the website, the Google Ads funnels, and the AI operations for multi-location practices, as one system that reports in booked patients rather than clicks.</p>
     <div class="btn-row reveal d2">
       <a class="btn" href="mailto:tarek@vyflow.ai">Start a conversation</a>
-      <a class="quiet" href="#how">How it works</a>
+      <a class="quiet" href="#services">See the three tiers</a>
     </div>
+    <p class="for reveal d2">Most practices with several locations pay for a website, an ads vendor, and someone to babysit their Google listings, and none of the three talk to each other. vyflow replaces them with one system that captures every inquiry with its source, follows it to a booked appointment, and feeds that truth back into the ads, the listings, and the front desk.</p>
   </div>
 </header>
 
-<section id="what">
+<section id="services">
   <div class="wrap">
-    <div class="eyebrow">What we build</div>
-    <h2>Every client runs the same proven stack.</h2>
-    <div class="grid">
-      <div class="card">
-        <span class="num">01</span>
-        <h3>Lead engine</h3>
-        <p>Every inquiry is captured server-side with its ad click attached, so ad platforms learn from real patients, not from whatever a browser lets through.</p>
-      </div>
-      <div class="card">
-        <span class="num">02</span>
-        <h3>Paid search</h3>
-        <p>Google Ads accounts managed under the vyflow manager account, structured per location, launched deliberately, and fed offline conversions through the Google Ads API so bidding learns from booked appointments rather than form fills.</p>
-      </div>
-      <div class="card">
-        <span class="num">03</span>
-        <h3>Local presence</h3>
-        <p>Business Profiles audited, maintained, and measured for every location, with reviews answered and listings defended against silent changes.</p>
-      </div>
-      <div class="card">
-        <span class="num">04</span>
-        <h3>AI operations</h3>
-        <p>Agents keep the books: lead statuses update from front-desk activity, weekly reports write themselves, and nothing depends on someone remembering.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="eyebrow">Services</div>
+    <h2>One system, three ways in.</h2>
+    <p class="sub">Every client runs the same stack. You can start at any tier, but the tracking layer is part of all three, because the loop does not work without it.</p>
 
-<section id="how" style="padding-top:0">
-  <div class="wrap">
-    <div class="eyebrow">How it works</div>
-    <h2>Three rules make it trustworthy.</h2>
-    <div class="principles">
-      <div class="principle">
-        <h3>The ledger is truth</h3>
-        <p>Lead counts come from a server-side record that ad blockers cannot touch. Analytics is the map, never the scoreboard, so decisions rest on numbers that are actually complete.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="stage">Build</div>
+        <h3>A website that tracks itself</h3>
+        <p class="job">For a practice that wants to see the truth before spending on ads.</p>
+        <div class="price">From $12,000<small>one-time, up to 3 locations, plus $1,200 per additional location</small></div>
+        <ul>
+          <li>Website redesign on a custom theme: per-location pages, condition pages, conversion-first forms</li>
+          <li>Tracking stack: server-side lead ledger, Google Tag Manager, GA4 key events, call tracking</li>
+          <li>Google Business Profile audit and cleanup for every location</li>
+          <li>30 days of post-launch support</li>
+        </ul>
+        <div class="foot">Six to eight weeks. Website care available as an add-on.</div>
       </div>
-      <div class="principle">
-        <h3>Compliance is structural</h3>
-        <p>For healthcare clients, patient information stays inside BAA-covered systems. Ad platforms receive click IDs and timestamps, nothing that identifies a person. Built in from day one, not patched in later.</p>
+
+      <div class="tier featured">
+        <div class="stage">Grow</div>
+        <h3>Fill open capacity</h3>
+        <p class="job">For a practice with empty schedule slots and no reliable way to tell which marketing fills them.</p>
+        <div class="price">From $1,500/mo<small>plus $350 per location per month. Ad spend billed directly to your card.</small></div>
+        <ul>
+          <li class="inherit">Everything in Build, plus:</li>
+          <li>Google Ads built and managed per location under the vyflow manager account</li>
+          <li>Landing pages per condition and service line</li>
+          <li>Offline conversion loop: booked appointments fed back to Google Ads so bidding learns from real patients</li>
+          <li>Weekly performance report in plain language</li>
+          <li>Website care included: hosting, updates, edits, monitoring</li>
+        </ul>
+        <div class="foot">Six-month minimum. Have a good site already? A tracking retrofit gets you in without a rebuild.</div>
       </div>
-      <div class="principle">
-        <h3>Owned, not rented</h3>
-        <p>Clients own their accounts, their data, and their history. vyflow operates the system and hands over clean keys if we ever part ways. No hostage infrastructure.</p>
+
+      <div class="tier">
+        <div class="stage">Automate</div>
+        <h3>Growth on autopilot</h3>
+        <p class="job">For a practice whose front desk is the bottleneck.</p>
+        <div class="price">From $2,500/mo<small>plus $500 per location per month</small></div>
+        <ul>
+          <li class="inherit">Everything in Grow, plus:</li>
+          <li>Business Profile agent: posts, hours, and listing defense across every location</li>
+          <li>Review responder</li>
+          <li>Lead follow-up and status agent, so front-desk activity flows back into the ledger</li>
+          <li>Voice agent for after-hours calls, missed calls, and appointment requests</li>
+          <li>Quarterly AI roadmap review for the practice</li>
+        </ul>
+        <div class="foot">Twelve-month minimum. Telephony and AI usage passed through at cost.</div>
       </div>
     </div>
+    <p class="note">Prices are starting points for outpatient practices with 2 to 25 locations. Single-location practices and hospital systems are not a fit, and vyflow works only with healthcare for now, because the compliance-safe architecture is the whole point.</p>
   </div>
 </section>
 
@@ -237,7 +278,7 @@
       <div class="card">
         <span class="num">01</span>
         <h3>Campaign build and management</h3>
-        <p>Search campaigns structured per clinic location, with keyword, ad copy, and budget decisions made by a person who is accountable for the outcome.</p>
+        <p>Search campaigns structured per clinic location, with keyword, ad copy, negative-keyword, and budget decisions made by a person who is accountable for the outcome.</p>
       </div>
       <div class="card">
         <span class="num">02</span>
@@ -254,11 +295,54 @@
   </div>
 </section>
 
+<section id="audit" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Standalone offer</div>
+    <h2>AI Operations Audit</h2>
+    <div class="offer">
+      <div>
+        <p>Two weeks inside your practice, one document out: a prioritized list of where automation pays back for you specifically, with the effort and the payback for each item. No platform pitch, no vendor lock-in, and you keep the document whether or not we build any of it.</p>
+        <ul>
+          <li>Front desk, intake, scheduling, follow-up, reviews, listings, reporting: mapped as they run today</li>
+          <li>Each candidate ranked by hours saved and revenue protected</li>
+          <li>Compliance boundary drawn for every item, so nothing touches patient data it should not</li>
+          <li>Credited toward Automate if you sign within 60 days</li>
+        </ul>
+      </div>
+      <div>
+        <div class="price">$4,500<small>fixed price, fixed scope, two weeks</small></div>
+        <p style="margin-top:1.2rem"><a class="btn" href="mailto:tarek@vyflow.ai?subject=AI%20Operations%20Audit">Book an audit</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Three rules make it trustworthy.</h2>
+    <div class="principles">
+      <div class="principle">
+        <h3>The ledger is truth</h3>
+        <p>Lead counts come from a server-side record that ad blockers cannot touch. Analytics is the map, never the scoreboard, so decisions rest on numbers that are actually complete.</p>
+      </div>
+      <div class="principle">
+        <h3>Compliance is structural</h3>
+        <p>Patient information stays inside BAA-covered systems. Ad platforms receive click IDs and timestamps, nothing that identifies a person. Built in from day one, not patched in later.</p>
+      </div>
+      <div class="principle">
+        <h3>Owned, not rented</h3>
+        <p>Clients own their website, their ad accounts, their data, and their history. vyflow operates the system and hands over clean keys if we ever part ways. No hostage infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="about" id="about">
   <div class="wrap">
     <div class="eyebrow">About</div>
     <h2>Built inside a real practice.</h2>
-    <p>vyflow was built by Tarek Taha while running marketing and automation for a ten-clinic physical therapy group in Chicagoland. The stack described here is not a proposal. It is the system that captures, tracks, and reports that group's patient growth every day.</p>
+    <p>vyflow was built by Tarek Taha while running marketing and automation for a ten-clinic physical therapy group in Chicagoland. The stack described here is not a proposal. It is the system that captures, tracks, and reports that group's patient growth every day, from the website and the Google Ads account to the agents that keep ten Business Profiles current.</p>
     <p>Now it is offered as a service: the same architecture, set up and operated for your practice.</p>
     <p style="margin-top:2rem"><a class="btn" href="mailto:tarek@vyflow.ai">Talk to Tarek</a></p>
   </div>
@@ -272,7 +356,6 @@
 </footer>
 
 <script>
-  // Scroll-edge effect on the translucent nav: divider appears only when content passes under it.
   const nav = document.getElementById('nav');
   addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
 </script>
